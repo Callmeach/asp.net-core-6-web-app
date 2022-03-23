@@ -18,6 +18,12 @@ namespace ProjectFirstSteps.Controllers
             return View();
         }
 
+
+        public IActionResult Publish()
+        {
+            return PartialView("_Publish");
+        }
+
         public IActionResult Privacy()
         {
             return View();

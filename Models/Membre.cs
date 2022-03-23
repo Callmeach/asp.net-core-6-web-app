@@ -10,14 +10,23 @@ namespace ProjectFirstSteps.Models
         public string Email { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
+        [DataType(DataType.Password)]
+        [MinLength(6, ErrorMessage = "Password lenght too weak, 6 characters minimum.")]
+        public string Password { get; set; }
 
-        public List<Publication> Publications { get; set; }
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
 
-        public Membre(string email, string nom, string prenom)
-        {
-            Email = email;
-            Nom = nom;
-            Prenom = prenom;
-        }
+        // Friends list
+        [NotMapped]
+        public virtual ICollection<MembreMembre>? Friends { get; set; }
+
+        // Invitaion
+        [NotMapped]
+        public virtual ICollection<Invitation>? Invitations { get; set; }
+
+        // Messages
+        [NotMapped]
+        public virtual ICollection<Chat>? Chats { get; set; }
     }
 }

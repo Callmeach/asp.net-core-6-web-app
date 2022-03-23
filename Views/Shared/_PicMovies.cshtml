@@ -1,0 +1,47 @@
+﻿@model PhotoVideo
+<div class="modal fade" id="addPhotoVideo">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4>Publish a Media File</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+			<div class="modal-body">
+				<div class="row">
+                    <div class="col-md-12">
+                        <form method="post" asp-action="Create" asp-controller="PhotoVideos" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="legende" class="control-label"></label>
+                                <input asp-for="legende" class="form-control" />
+                                <span asp-validation-for="legende" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="formFile" class="control-label"></label>
+                                <input asp-for="formFile" type="file" class="form-control" />
+                                <span asp-validation-for="formFile" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" asp-for="nomRessource" class="form-control" value="Media"/>
+                                <span asp-validation-for="nomRessource" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" asp-for="path" class="form-control" />
+                                <span asp-validation-for="path" class="text-danger"></span>
+                            </div>
+                            <input type="submit" value="Publier" class="btn btn-success" />
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-save="modal">Send message</button>
+            </div>
+
+			
+		</div>
+	</div>
+  </div>

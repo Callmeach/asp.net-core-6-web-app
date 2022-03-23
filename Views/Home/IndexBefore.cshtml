@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProjectFirstSteps.Models.MakingPublications>
+
+@{
+    ViewData["Title"] = "Home Page Second";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Welcome @Context.Session.GetString("email")</p>
+    <a asp-controller="Membres" asp-action="logout">Logout</a>
+</div>
+
+<form asp-controller="Messages" asp-action="Create">
+    <input type="submit" value="Testing Publication" class="btn btn-primary">
+</form>
+
+@*<button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addMessage" 
+data-url="@Url.Action("Create")">Create</button>*@
+
+<div class="row" style="display:flex">
+
+    <div style="margin-top:15px; margin-bottom:30px" class="col-3">
+        <div id ="addPublication" ></div>
+        <button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addMessage" 
+        data-url="@Url.Action("Create","Messages")">Message</button>
+    </div>
+
+    <div class="col-3" style="margin-top:15px;">
+        <div id ="addPublication" ></div>
+        <button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addUrl" 
+        data-url="@Url.Action("Create","Liens")">Url</button>
+    </div>
+
+    <div class="col-3" style="margin-top:15px;">
+        <div id ="addPublication" ></div>
+        <button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addPhotoVideo" 
+        data-url="@Url.Action("Create","PhotoVideos")">Photo / Video</button>
+    </div>
+
+</div>
+@*<script type="text/javascript">
+    
+    $(document).ready(function () {
+    $('.btn').click(function () {
+        var url = $('#addMessage').data('url');
+        $.get(url, function (data) {
+            $("#addMessage").html(data);
+            $("#addMessage").modal('show');
+        });
+    });
+    });
+
+    $(document).ready(function () {
+    $('.btn').click(function () {
+        var url = $('#addUrl').data('url');
+        $.get(url, function (data) {
+            $("#addUrl").html(data);
+            $("#addUrl").modal('show');
+        });
+    });
+    });
+
+    $(document).ready(function () {
+    $('.btn-block').click(function () {
+        var url = $('#addPhotoVideo').data('url');
+        $.get(url, function (data) {
+            $("#addPhotoVideo").html(data);
+            $("#addPhotoVideo").modal('show');
+        });
+    });
+    });
+</script>*@
+

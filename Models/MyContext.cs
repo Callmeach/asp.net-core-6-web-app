@@ -1,17 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectFirstSteps.Models;
 
 namespace ProjectFirstSteps.Models
 {
     public class MyContext:DbContext
     {
         public DbSet<Membre> Membres { get; set; }
-        public DbSet<Administrateur> Administrateurs { get; set; }
-        public DbSet<Moderateur> Moderateurs { get; set; }
-        public DbSet<Ressource> Ressources { get; set; }
+        public DbSet<MembreMembre> MembreMembres { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        //public DbSet<Ressource> Ressources { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<PhotoVideo> PhotoVideos { get; set; }
         public DbSet<Lien> Liens { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -22,7 +25,9 @@ namespace ProjectFirstSteps.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity < Membre>(entity =>
+            modelBuilder.Ignore<MakingPublications>();
+
+            modelBuilder.Entity<Membre>(entity =>
             {
                 entity.HasKey(m => m.Email);
 
@@ -35,47 +40,51 @@ namespace ProjectFirstSteps.Models
                 .HasColumnType("varchar(50)");
             });
 
-            modelBuilder.Entity<Administrateur>(entity =>
+            modelBuilder.Entity<MakingPublications>(entity =>
             {
-                entity.HasKey(a => a.Email);
+                entity.HasNoKey();
+            });
 
-                entity.Property(m => m.Nom)
+            //modelBuilder.Entity<Message>().ToTable("messages");
+            //modelBuilder.Entity<Lien>().ToTable("liens");
+            //modelBuilder.Entity<PhotoVideo>().ToTable("photosVideo");
+
+            //Here Emmanuel Codes
+            modelBuilder.Entity<MembreMembre>(entity =>
+            {
+                entity.HasKey(pc => new {pc.MailMembre2, pc.MailMembre1 });
+                entity.Property(m => m.MailMembre1)
                 .IsRequired()
-                .HasColumnType("varchar(30)");
+                .HasColumnType("varchar(255)");
 
-                entity.Property(p => p.Prenom)
+                entity.Property(m => m.MailMembre2)
                 .IsRequired()
-                .HasColumnType("varchar(50)");
+                .HasColumnType("varchar(255)");
+
             });
 
-            modelBuilder.Entity<Moderateur>(entity =>
+            modelBuilder.Entity<Invitation>(entity =>
             {
-                entity.HasKey(a => a.Email);
-
-                entity.Property(m => m.Nom)
+                entity.Property(m => m.InviterMail)
                 .IsRequired()
-                .HasColumnType("varchar(30)");
+                .HasColumnType("varchar(255)");
 
-                entity.Property(p => p.Prenom)
+                entity.Property(m => m.InvitedMail)
                 .IsRequired()
-                .HasColumnType("varchar(50)");
+                .HasColumnType("varchar(255)");
             });
 
-            modelBuilder.Entity<Publication>(entity =>
+            modelBuilder.Entity<Chat>(entity =>
             {
-                entity.HasKey(cle => new { cle.dateDePublication, cle.uneRessource, cle.memberMail });
-                entity.HasOne(v => v.Membre).WithMany(p => p.Publications).HasForeignKey(c => c.memberMail);
+                entity.Property(m => m.MailMembre1)
+                .IsRequired()
+                .HasColumnType("varchar(255)");
+
+                entity.Property(m => m.MailMembre2)
+                .IsRequired()
+                .HasColumnType("varchar(255)");
             });
 
-            modelBuilder.Entity<Publication>(entity =>
-            {
-                entity.HasOne<Ressource>(i => i.Ressource).WithMany(m => m.lesPublications).HasForeignKey(c => c.uneRessource);
-            });
-
-            modelBuilder.Entity<Ressource>(entity =>
-            {
-                entity.HasKey(k => k.nomRessource);
-            });
         }
 
     }

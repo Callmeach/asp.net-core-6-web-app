@@ -19,22 +19,77 @@ namespace ProjectFirstSteps.Migrations
                 .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("ProjectFirstSteps.Models.Administrateur", b =>
+            modelBuilder.Entity("ProjectFirstSteps.Models.Chat", b =>
                 {
-                    b.Property<string>("Email")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Containt")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MailMembre1")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("MailMembre2")
                         .IsRequired()
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Prenom")
+                    b.Property<DateTime>("MessageDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("ProjectFirstSteps.Models.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("InvDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("InvitedMail")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(255)");
 
-                    b.HasKey("Email");
+                    b.Property<string>("InviterMail")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.ToTable("Administrateurs");
+                    b.HasKey("Id");
+
+                    b.ToTable("Invitations");
+                });
+
+            modelBuilder.Entity("ProjectFirstSteps.Models.MakingPublications", b =>
+                {
+                    b.Property<int>("lienId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("messageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("photoVideoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("publicationId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("lienId");
+
+                    b.HasIndex("messageId");
+
+                    b.HasIndex("photoVideoId");
+
+                    b.HasIndex("publicationId");
+
+                    b.ToTable("MakingPublications");
                 });
 
             modelBuilder.Entity("ProjectFirstSteps.Models.Membre", b =>
@@ -46,67 +101,96 @@ namespace ProjectFirstSteps.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(30)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Email");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Membres");
                 });
 
-            modelBuilder.Entity("ProjectFirstSteps.Models.Moderateur", b =>
+            modelBuilder.Entity("ProjectFirstSteps.Models.MembreMembre", b =>
                 {
-                    b.Property<string>("Email")
+                    b.Property<string>("MailMembre2")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)");
+                    b.Property<string>("MailMembre1")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Prenom")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.HasKey("MailMembre2", "MailMembre1");
 
-                    b.HasKey("Email");
-
-                    b.ToTable("Moderateurs");
+                    b.ToTable("MembreMembres");
                 });
 
             modelBuilder.Entity("ProjectFirstSteps.Models.Publication", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("MembreEmail")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("RessourceId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("dateDePublication")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("uneRessource")
-                        .HasColumnType("varchar(255)");
+                    b.HasKey("Id");
 
-                    b.Property<string>("memberMail")
-                        .HasColumnType("varchar(255)");
+                    b.HasIndex("MembreEmail");
 
-                    b.HasKey("dateDePublication", "uneRessource", "memberMail");
-
-                    b.HasIndex("memberMail");
-
-                    b.HasIndex("uneRessource");
+                    b.HasIndex("RessourceId");
 
                     b.ToTable("Publications");
                 });
 
             modelBuilder.Entity("ProjectFirstSteps.Models.Ressource", b =>
                 {
-                    b.Property<string>("nomRessource")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("RessourceID");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("nomRessource");
+                    b.Property<string>("nomRessource")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.ToTable("Ressources");
+                    b.HasKey("Id");
+
+                    b.ToTable("Ressource");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Ressource");
+                });
+
+            modelBuilder.Entity("ProjectFirstSteps.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("ProjectFirstSteps.Models.Lien", b =>
@@ -135,23 +219,76 @@ namespace ProjectFirstSteps.Migrations
                 {
                     b.HasBaseType("ProjectFirstSteps.Models.Ressource");
 
-                    b.Property<int>("taille")
-                        .HasColumnType("int");
+                    b.Property<string>("legende")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("path")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("taille")
+                        .HasColumnType("bigint");
 
                     b.HasDiscriminator().HasValue("PhotoVideo");
+                });
+
+            modelBuilder.Entity("ProjectFirstSteps.Models.MakingPublications", b =>
+                {
+                    b.HasOne("ProjectFirstSteps.Models.Lien", "lien")
+                        .WithMany()
+                        .HasForeignKey("lienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectFirstSteps.Models.Message", "message")
+                        .WithMany()
+                        .HasForeignKey("messageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectFirstSteps.Models.PhotoVideo", "photoVideo")
+                        .WithMany()
+                        .HasForeignKey("photoVideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectFirstSteps.Models.Publication", "publication")
+                        .WithMany()
+                        .HasForeignKey("publicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("lien");
+
+                    b.Navigation("message");
+
+                    b.Navigation("photoVideo");
+
+                    b.Navigation("publication");
+                });
+
+            modelBuilder.Entity("ProjectFirstSteps.Models.Membre", b =>
+                {
+                    b.HasOne("ProjectFirstSteps.Models.Role", "Role")
+                        .WithMany("Membres")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("ProjectFirstSteps.Models.Publication", b =>
                 {
                     b.HasOne("ProjectFirstSteps.Models.Membre", "Membre")
-                        .WithMany("Publications")
-                        .HasForeignKey("memberMail")
+                        .WithMany()
+                        .HasForeignKey("MembreEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProjectFirstSteps.Models.Ressource", "Ressource")
-                        .WithMany("lesPublications")
-                        .HasForeignKey("uneRessource")
+                        .WithMany()
+                        .HasForeignKey("RessourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -160,14 +297,9 @@ namespace ProjectFirstSteps.Migrations
                     b.Navigation("Ressource");
                 });
 
-            modelBuilder.Entity("ProjectFirstSteps.Models.Membre", b =>
+            modelBuilder.Entity("ProjectFirstSteps.Models.Role", b =>
                 {
-                    b.Navigation("Publications");
-                });
-
-            modelBuilder.Entity("ProjectFirstSteps.Models.Ressource", b =>
-                {
-                    b.Navigation("lesPublications");
+                    b.Navigation("Membres");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,41 @@
+﻿@model Message
+
+<div class="modal fade" id="addMessage">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4>Publish a sample message</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+			<div class="modal-body">
+				<div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <textarea rows="6" placeholder="Quoi de neuf?" asp-for="libelle" class="form-control"></textarea>
+                                <span asp-validation-for="libelle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" asp-for="nomRessource" class="form-control" value="Message" />
+                                <span asp-validation-for="nomRessource" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary" data-save="modal">Send message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+			</div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    
+                </div>
+            
+
+			
+		</div>
+	</div>
+</div>
