@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectFirstSteps.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -34,6 +33,28 @@
         </div>
     </main>
 
+    <div class="customize-theme">
+			<div class="card">
+				<div class="background">
+					<div class="choose-bg">
+						<div class="bg-1 active">
+							<span></span>
+							<h5 for="bg-1">Light</h5>
+						</div>
+						<div class="bg-2">
+							<span></span>
+							<h5 for="bg-2">Dim</h5>
+						</div>
+						<div class="bg-3">
+							<span></span>
+							<h5 for="bg-3">Lights Out</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<script src="~/js/script.js"></script>
+
     @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - ProjectFirstSteps - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -44,6 +65,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 </html>
 
