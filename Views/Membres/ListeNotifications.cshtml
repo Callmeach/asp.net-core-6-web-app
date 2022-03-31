@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ProjectFirstSteps.Models.Notifications>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="left"></div>
+<div class="middle">
+    @foreach(var item in Model)
+    {
+        <p>@Html.DisplayFor(modelItem => item.Contenu)</p>
+        if (item.IsAdvertisement)
+        {
+            <a asp-action="Signaler" asp-controller="Membres" asp-route-id = "@item.PersonalizedClass.Id">Cliquez pour voir la publication</a>
+        }
+    }
+</div>

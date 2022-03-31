@@ -13,13 +13,13 @@
 <body>
         <nav>
 			<div class="container">
-				<h2 class="log">NetAtlas</h2>
+				<h2 class="log"><a asp-action="Index" asp-controller="Home">NetAtlas</a></h2>
 				<div class="search-bar">
 					<i class="uil uil-search"></i>
 					<input type="search" placeholder="Rechercher sur NetAtlas">
 				</div>
 				<div class="create">
-					<label class="btn btn-primary" for="create-post">Create</label>
+					<a class="btn btn-primary" asp-controller="Membres" asp-action="logout">Logout</a>
 					<div class="profile-picture">
 						<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
 					</div>

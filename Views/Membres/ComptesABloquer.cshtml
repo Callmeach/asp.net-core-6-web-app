@@ -1,0 +1,23 @@
+﻿<table class=table>
+						<thead>
+							<tr>
+								<th>
+									Email
+								</th>
+								
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+						@foreach (var item in ViewBag.mails) {
+							<tr>
+								<td>
+									@item.ToString()
+								</td>
+								<td>
+									<a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ToString()">Supprimer</a>							
+								</td>
+							</tr>
+						}
+						</tbody>
+					</table>

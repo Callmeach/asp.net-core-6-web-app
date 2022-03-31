@@ -9,7 +9,7 @@ namespace ProjectFirstSteps.Models
         [Column("RessourceID")]
         public int Id { get; set; }
 
-        public string nomRessource { get; set;}
+        public string nomRessource { get; set; }
 
     }
 }

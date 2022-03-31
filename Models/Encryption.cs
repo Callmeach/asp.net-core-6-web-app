@@ -4,6 +4,7 @@ namespace ProjectFirstSteps.Models
 {
     public static class Encryption
     {
+        //Classe utilitaire qui sert à crypter les mots de passe des utiisateurs
         public static string Hash(string value)
         {
             return Convert.ToBase64String(System.Security.Cryptography.SHA256

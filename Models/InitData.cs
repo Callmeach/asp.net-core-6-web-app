@@ -4,6 +4,7 @@ namespace ProjectFirstSteps.Models
 {
     public class InitData
     {
+        //Cette classe initialise les roles dans la base de données au lancement de l'application 
         public static void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new MyContext(

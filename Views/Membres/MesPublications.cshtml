@@ -1,0 +1,292 @@
+﻿@model IEnumerable<ProjectFirstSteps.Models.PersonalizedClass>
+
+@{
+    ViewData["Title"] = "Page Personnelle";
+}
+
+				<div class="left">
+					<a href="" class="profile">
+						<div class="profile-picture">
+							<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
+						</div>
+						<div class="handle">
+							<h4>@User.Identity.Name</h4>
+							<p class="text-muted">
+								@Context.Session.GetString("email")
+							</p>
+						</div>
+					</a>
+
+					<div class="sidebar">
+						<a class="menu-item active">
+							<span><i class="uil uil-home"></i></span><h3>Acceuil</h3>
+						</a>
+						<a class="menu-item">
+							<span><i class="uil uil-users-alt"></i></span><h3>Amis</h3>
+						</a>
+						<a class="menu-item" id="notifications">
+							<span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>Notifications</h3>
+							<div class="notifications-popup">
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic3.png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Samuel R</b> accepted your friend request
+										<small class="text-muted">1 hour ago</small>
+									</div>
+								</div>
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Nick Larson</b> accepted your friend request
+										<small class="text-muted">1 day ago</small>
+									</div>
+								</div>
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic4png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Ava Max</b> accepted your friend request
+										<small class="text-muted">2 days ago</small>
+									</div>
+								</div>
+							</div>
+							
+						</a>
+						<a class="menu-item" id="messages-notifications">
+							<span><i class="uil uil-envelope-alt"><small class="notification-count">3</small></i></span><h3>Messages</h3>
+						</a>
+						<a class="menu-item" id="theme">
+							<span><i class="uil uil-palette"></i></span><h3>Theme</h3>
+						</a>
+						<a class="menu-item">
+							<span><i class="uil uil-setting"></i></span><h3>Settings</h3>
+						</a>
+							
+					</div>
+						<button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addPhotoVideo" 
+						data-url="@Url.Action("Create","PhotoVideos")">Publication</button>
+				</div>
+
+				<div class="middle">
+					<div class="create-post">
+						<div class="profile-picture">
+							<img alt="" src="~/Medias/Images/PhotoProfil/pic2.jpg">
+						</div>
+						<input type="text" placeholder="What's new?" id="create-post">
+						<div>
+							<div id ="addPublication" ></div>
+							<button style="margin-right:1rem" type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addUrl" 
+							data-url="@Url.Action("Create","Liens")"><i class="uil uil-link"></i></button>
+						</div>
+						<div>
+							<div id ="addPublication" ></div>
+							<button type="button" class="btn btn-primary" data-toogle="ajax-modal" data-target="#addMessage" 
+							data-url="@Url.Action("Create","Messages")"><i class="uil uil-message"></i></button>
+						</div>
+					</div>
+					
+
+					<div class="feeds">
+						@foreach (var item in Model.Where(i => i.UserMail == @Context.Session.GetString("email")).OrderByDescending(item => item.PublicationDate))
+						{
+							<div class="feed">
+								<div class="head">
+									<div class="user">
+										<div class="profile-picture">
+											<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+										</div>
+										<div class="ingo">
+											<h3>@Html.DisplayFor(modelItem => item.UserName)</h3>
+											<small>@Html.DisplayFor(modelItem => item.PublicationDate)</small>
+										</div>
+									</div>
+									<span class="edit">
+										<i class="uil uil-ellipsis-h"></i>
+									</span>
+								</div>
+								@if(item.Libelle != null){
+									<div>
+										<p>@Html.DisplayFor(modelItem => item.Libelle)</p>
+									</div>
+									<div>
+										<a asp-action="Delete" asp-route-id="@item.Id" asp-controller="PersonalizedClasses" type="button" class="btn btn-danger">Retirer</a>
+									</div>
+								}
+								@if(item.Url != null){
+									<div>
+										<a href="@Html.DisplayFor(modelItem => item.Url)" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
+									</div>
+									<div>
+										<a asp-action="Delete" asp-route-id="@item.Id" asp-controller="PersonalizedClasses" type="button" class="btn btn-danger">Retirer</a>
+									</div>
+								}
+								@if(item.Legende != null){
+									<p>@Html.DisplayFor(modelItem => item.Legende)</p>
+									@if(item.type == 1)
+									{
+										<div class="photo">
+											<img src="@Html.DisplayFor(modelItem => item.Path)" alt="" loading="lazy">
+										</div>
+									}
+									@if(item.type == 2)
+									{
+										<div class="photo">
+											<video src="@Html.DisplayFor(modelItem => item.Path)" controls preload="none" width=500 height=400 ></video>
+										</div>
+									}
+									<div>
+										<a asp-action="Delete" asp-route-id="@item.Id" asp-controller="PersonalizedClasses" type="button" class="btn btn-danger">Retirer</a>
+									</div>
+
+								}
+								<div class="action-button">
+									<div class="interaction-buttons">
+										<span><i class="uil uil-heart"></i></span>
+										<span><i class="uil uil-comment-dots"></i></span>
+										<span><i class="uil uil-share-alt"></i></span>
+									</div>
+								<div class="bookmarks">
+									<span><i class="uil uil-bookmark-full"></i></span>
+								</div>
+							</div>
+							<div class="liked-by">
+								<span><img src="~/Medias/Images/PhotoProfil/pic1.png"></span>
+								<span><img src="~/Medias/Images/PhotoProfil/pic2.jpg"></span>
+								<span><img src="~/Medias/Images/PhotoProfil/pic3.png"></span>
+								<p>Liked by <b>ErnesArnold</b> and <b>2,450 others</b></p>
+							</div>
+							<div class="caption">
+								<p><b>Alfred 06</b> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									Illum...</p>
+							</div>
+							<div class="comments text-muted">View all 276 comments</div>
+							</div>
+						}
+						
+						<!-------------END OF FEED---------->
+
+					</div>
+				</div>
+				<div class="right">
+					<div class="messages">
+						<div class="heading">
+							<h4>Messages</h4><i class="uil uil-edit"></i>
+						</div>
+						<div class="search-bar">
+							<i class="uil uil-search"></i>
+							<input type="search" placeholder="Search Messages" id="message-search">
+						</div>
+						<div class="category">
+							<h6 class="active">Primary</h6>
+							<h6>General</h6>
+							<h6 class="message-requests">Request(7)</h6>
+						</div>
+						<div class="message">
+							<div class="profile-picture">
+								<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+								<div class="active"></div>
+							</div>
+							<div class="message-body">
+								<h5>Edem Quist</h5>
+								<p class="text-muted">Juste woke up man</p>
+							</div>
+						</div>
+						<div class="message">
+							<div class="profile-picture">
+								<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
+								<div class="active"></div>
+							</div>
+							<div class="message-body">
+								<h5>J Martins</h5>
+								<p class="text-muted">Thanks you bro✌</p>
+							</div>
+						</div>
+						<div class="message">
+							<div class="profile-picture">
+								<img src="~/Medias/Images/PhotoProfil/pic3.png" alt="">
+								<div class="active"></div>
+							</div>
+							<div class="message-body">
+								<h5>Irai Aoro</h5>
+								<p class="text-muted">Hi,😙 how are you doing?</p>
+							</div>
+						</div>
+						<div class="message">
+							<div class="profile-picture">
+								<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+								<div class="active"></div>
+							</div>
+							<div class="message-body">
+								<h5>Grid Swallow</h5>
+								<p class="text-muted">Happy Birthday man!😎</p>
+							</div>
+						</div>
+						<div class="message">
+							<div class="profile-picture">
+								<img src="~/Medias/Images/PhotoProfil/pic2.jpg" alt="">
+								<div class="active"></div>
+							</div>
+							<div class="message-body">
+								<h5>Edwige Blitz</h5>
+								<p class="text-muted">Ara Ara!😊</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="friend-requests">
+						<h4>Requests</h4>
+						<div class="request">
+							<div class="info">
+								<div class="profile-picture">
+									<img alt="" src="~/Medias/Images/PhotoProfil/pic2.jpg">
+								</div>
+								<div>
+									<h5>Tony Stark</h5>
+									<p class="text-muted">8 mutual friends</p>
+								</div>
+							</div>
+							<div class="action">
+								<button class="btn btn-primary">Accept</button>
+								<button class="btn">Refuse</button>
+							</div>
+						</div>
+
+						<div class="request">
+							<div class="info">
+								<div class="profile-picture">
+									<img alt="" src="~/Medias/Images/PhotoProfil/pic3.png">
+								</div>
+								<div>
+									<h5>Naira Romakono</h5>
+									<p class="text-muted">12 mutual friends</p>
+								</div>
+							</div>
+							<div class="action">
+								<button class="btn btn-primary">Accept</button>
+								<button class="btn">Refuse</button>
+							</div>
+						</div>
+
+						<div class="request">
+							<div class="info">
+								<div class="profile-picture">
+									<img alt="" src="~/Medias/Images/PhotoProfil/pic1.png">
+								</div>
+								<div>
+									<h5>Shrek Shrek</h5>
+									<p class="text-muted">6 mutual friends</p>
+								</div>
+							</div>
+							<div class="action">
+								<button class="btn btn-primary">Accept</button>
+								<button class="btn">Refuse</button>
+							</div>
+						</div>
+
+					</div>
+				</div>

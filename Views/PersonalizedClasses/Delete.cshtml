@@ -1,0 +1,113 @@
+﻿@model ProjectFirstSteps.Models.PersonalizedClass
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+				<div class="left">
+					<a asp-action="MesPublications" asp-controller="Membres" class="profile">
+						<div class="profile-picture">
+							<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
+						</div>
+						<div class="handle">
+							<h4>@User.Identity.Name</h4>
+							<p class="text-muted">
+								@Context.Session.GetString("email")
+							</p>
+						</div>
+					</a>
+
+					<div class="sidebar">
+						<a class="menu-item active">
+							<span><i class="uil uil-home"></i></span><h3>Acceuil</h3>
+						</a>
+						<a class="menu-item">
+							<span><i class="uil uil-users-alt"></i></span><h3>Amis</h3>
+						</a>
+						<a class="menu-item" id="notifications">
+							<span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>Notifications</h3>
+							<div class="notifications-popup">
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic3.png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Samuel R</b> accepted your friend request
+										<small class="text-muted">1 hour ago</small>
+									</div>
+								</div>
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Nick Larson</b> accepted your friend request
+										<small class="text-muted">1 day ago</small>
+									</div>
+								</div>
+								<div>
+									<div class="profile-picture">
+										<img src="~/Medias/Images/PhotoProfil/pic4png" alt="">
+									</div>
+									<div class="notification-body">
+										<b>Ava Max</b> accepted your friend request
+										<small class="text-muted">2 days ago</small>
+									</div>
+								</div>
+							</div>
+							
+						</a>
+						<a class="menu-item" id="messages-notifications">
+							<span><i class="uil uil-envelope-alt"><small class="notification-count">3</small></i></span><h3>Messages</h3>
+						</a>
+						<a class="menu-item" id="theme">
+							<span><i class="uil uil-palette"></i></span><h3>Theme</h3>
+						</a>
+						<a class="menu-item">
+							<span><i class="uil uil-setting"></i></span><h3>Settings</h3>
+						</a>
+							
+					</div>
+				</div>
+
+				<div class="middle">
+					<div class="feeds">
+						<div class="feed">
+							<h3>Confirmer la suppression. Ceci est irréversible!</h3>
+							<div>
+								<hr />
+								<div class="ingo">
+									<h3>@Html.DisplayFor(model => model.UserName)</h3>
+									<small>@Html.DisplayFor(model => model.PublicationDate)</small>
+								</div>
+								@if(Model.Url != null){
+									<a href="@Html.DisplayFor(model => model.Url)" target="_blank">@Html.DisplayFor(model => model.Url)</a>
+								}
+								@if(Model.Libelle != null){
+									<p>@Html.DisplayFor(model => model.Libelle)</p>
+								}
+								@if(Model.Legende != null){
+									<p>@Html.DisplayFor(model => model.Legende)</p>
+									@if(Model.type == 1){
+										<div class="photo">
+											<img src="@Html.DisplayFor(model => model.Path)" alt="" loading="lazy">
+										</div>
+									}
+									@if(Model.type == 2){
+										<div class="photo">
+											<video src="@Html.DisplayFor(model => model.Path)" controls preload="none" width=500 height=400 ></video>
+										</div>
+									}
+								}
+										
+								<form asp-action="Delete">
+									<input type="hidden" asp-for="Id" />
+									<input type="submit" value="Delete" class="btn btn-danger" />
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>

@@ -61,6 +61,7 @@ namespace ProjectFirstSteps.Controllers
         {
             if (ModelState.IsValid)
             {
+                var fileType = 1;
                 string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".mp4", ".avi" };
                 var ext = Path.GetExtension(photoVideo.formFile.FileName).ToLowerInvariant();
                 if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
@@ -81,6 +82,10 @@ namespace ProjectFirstSteps.Controllers
                         _context.Add(photoVideo);
 
                         var EmailSession = HttpContext.Session.GetString("email");
+                        if(ext == ".mp4")
+                        {
+                            fileType = 2;
+                        }
                         Publication publication = new Publication
                         {
                             dateDePublication = DateTime.Now,
@@ -88,7 +93,20 @@ namespace ProjectFirstSteps.Controllers
                             Membre = _context.Membres.Find(EmailSession)
                         };
                         _context.Add(publication);
+                        PersonalizedClass personalized = new PersonalizedClass
+                        {
+                            UserName = User.Identity.Name,
+                            UserMail = EmailSession,
+                            PublicationDate = DateTime.Now,
+                            RessourceName = photoVideo.nomRessource,
+                            Legende = photoVideo.legende,
+                            Path = photoVideo.path,
+                            type = fileType
+                        };
+                        _context.Add(personalized);
                         await _context.SaveChangesAsync();
+                        ViewBag.Media = photoVideo;
+                        ViewBag.PicturePublication = publication;
                         return RedirectToAction(nameof(Index));
                     }
                 }

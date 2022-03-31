@@ -66,10 +66,85 @@ namespace ProjectFirstSteps.Controllers
             return amis;
         }
 
+        // GET: Publications
+        public async Task<IActionResult> MesPublications()
+        {
+            return View("MesPublications",await _context.Personalizeds.ToListAsync());
+        }
+
+        //Recuperer les notifications en passant le mail de l'utilisateur en parametre
+        public async Task<IActionResult> PublicationsParam(string id)
+        {
+            var model = await _context.Personalizeds.Where(m => m.UserMail == id).OrderByDescending(i => i.PublicationDate).ToListAsync();
+            return View("NewView", model);
+        }
+
+        public async Task <IActionResult> Signaler(int id)
+        {
+            var publication = await _context.Personalizeds.Where(m => m.Id == id).SingleOrDefaultAsync();
+            return View(publication);
+        }
+
+        [HttpPost, ActionName("Signaler")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignalerConfirmed(int id)
+        {
+            var notification = new Notifications
+            {
+                Contenu = "Votre publication a été signalée. Veuillez vous conformer aux conditions d'utilisation de NetAtlas.",
+                MembreEmail = await _context.Personalizeds.Where(i => i.Id == id).Select(e => e.UserMail).FirstOrDefaultAsync(),
+                PersonalizedClass = await _context.Personalizeds.FindAsync(id),
+                IsAdvertisement = true
+            };
+            _context.Add(notification);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ListeNotifications()
+        {
+            var EmailSession = HttpContext.Session.GetString("email");
+            var notifications = await _context.Notifications
+                .Where(m => m.MembreEmail == EmailSession)
+                .Include(p => p.PersonalizedClass).ToListAsync();
+            return View(notifications);
+        }
+
+        public IActionResult ValiderInscription(string id)
+        {
+            var membre = _context.Membres.Find(id);
+            membre.IsActivated = true;
+            _context.SaveChanges();
+            return RedirectToAction("Admin","Home");
+        }
+
+        //Recuperer la liste des membres signalés 3 fois (au moins)
+        public IActionResult ComptesABloquer()
+        {
+            List<object> liste = new List<object>();
+            var listeEmail = _context.Notifications.Select(e => e.MembreEmail).ToList();
+            var groupe = listeEmail.GroupBy(i => i);
+            foreach(var item in groupe)
+            {
+                if(item.Count() > 2)
+                {
+                    liste.Add(item.Key);
+                }
+            }
+            ViewBag.mails = liste;
+            return View();
+        }
+
+        public IActionResult Reinitialiser(string id)
+        {
+            return View();
+        }
+
         // GET: Membres
+        [Authorize(Roles = "Moderateur,Administrateur")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Membres.ToListAsync());
+            return View(await _context.Membres.Include(r => r.Role).ToListAsync());
         }
 
         // GET: Membres/Details/5
@@ -201,6 +276,8 @@ namespace ProjectFirstSteps.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var membre = await _context.Membres.FindAsync(id);
+            var personalized = await _context.Personalizeds.Where(p => p.UserMail == id).ToListAsync();
+            _context.Personalizeds.RemoveRange(personalized);
             _context.Membres.Remove(membre);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -225,32 +302,39 @@ namespace ProjectFirstSteps.Controllers
             var v = _context.Membres.Where(a => a.Email == membre.Email).FirstOrDefault();
             if (v != null)
             {
-                if (string.Compare(Encryption.Hash(membre.Password), v.Password) == 0)
+                if (v.IsActivated)
                 {
-                    //Role role = new Role();
-                    var userName = v.Nom;
-                    var userRole = _context.Roles.Find(v.RoleId).Name;
+                    if (string.Compare(Encryption.Hash(membre.Password), v.Password) == 0)
+                    {
+                        //Role role = new Role();
+                        var userName = v.Nom + " " + v.Prenom;
+                        var userRole = _context.Roles.Find(v.RoleId).Name;
 
-                    HttpContext.Session.SetString("email", membre.Email);
+                        HttpContext.Session.SetString("email", membre.Email);
 
-                    var userClaims = new List<Claim>
+                        var userClaims = new List<Claim>
                         {
                         new Claim(ClaimTypes.Name, userName),
                         new Claim(ClaimTypes.Email, membre.Email),
                         new Claim(ClaimTypes.Role, userRole),
                         };
-                    var identity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var identity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    var userPrincipal = new ClaimsPrincipal(new[] { identity });
+                        var userPrincipal = new ClaimsPrincipal(new[] { identity });
 
-                    await HttpContext.SignInAsync(userPrincipal);
-                    
-                    var liste = HttpContext.Session.GetString("email");
-                    return RedirectToAction("Index", "Home");
+                        await HttpContext.SignInAsync(userPrincipal);
+
+                        var liste = HttpContext.Session.GetString("email");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        message = "Incorrect Password";
+                    }
                 }
                 else
                 {
-                    message = "Incorrect Password";
+                    message = "Votre inscription n'a pas encore été validée.";
                 }
             }
             else

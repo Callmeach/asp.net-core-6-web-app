@@ -10,6 +10,8 @@ namespace ProjectFirstSteps.Models
 
         public string? path { get; set; }
 
+        public int? type { get; set; }
+
         [NotMapped]
         public IFormFile formFile { get; set; }
     }

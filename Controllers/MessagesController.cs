@@ -69,7 +69,18 @@ namespace ProjectFirstSteps.Controllers
                     Membre = _context.Membres.Find(EmailSession)
                 };
                 _context.Add(publication);
+                PersonalizedClass personalized = new PersonalizedClass
+                {
+                    UserName = User.Identity.Name,
+                    UserMail = EmailSession,
+                    PublicationDate = DateTime.Now,
+                    RessourceName = message.nomRessource,
+                    Libelle = message.libelle
+                };
+                _context.Add(personalized);
                 await _context.SaveChangesAsync();
+                ViewBag.Message = message;
+                ViewBag.MessagePublication = publication;
                 return RedirectToAction(nameof(Index));
             }
             return View(message);

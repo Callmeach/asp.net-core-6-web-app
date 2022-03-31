@@ -8,13 +8,15 @@ namespace ProjectFirstSteps.Models
         public DbSet<Membre> Membres { get; set; }
         public DbSet<MembreMembre> MembreMembres { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
+        public DbSet<Ressource> Ressource { get; set; }
         public DbSet<Chat> Chats { get; set; }
-        //public DbSet<Ressource> Ressources { get; set; }
+        public DbSet<PersonalizedClass> Personalizeds { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<PhotoVideo> PhotoVideos { get; set; }
         public DbSet<Lien> Liens { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -24,8 +26,6 @@ namespace ProjectFirstSteps.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Ignore<MakingPublications>();
 
             modelBuilder.Entity<Membre>(entity =>
             {
@@ -40,10 +40,6 @@ namespace ProjectFirstSteps.Models
                 .HasColumnType("varchar(50)");
             });
 
-            modelBuilder.Entity<MakingPublications>(entity =>
-            {
-                entity.HasNoKey();
-            });
 
             //modelBuilder.Entity<Message>().ToTable("messages");
             //modelBuilder.Entity<Lien>().ToTable("liens");

@@ -1,0 +1,51 @@
+﻿@model ProjectFirstSteps.Models.PersonalizedClass
+
+@{
+    ViewData["Title"] = "Signaler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="left"></div>
+
+<div class="middle">
+					<div class="feeds">
+						<div class="feed">
+							@if(User.IsInRole("Moderateur")){
+								<h3>Vous pouvez signaler cette publication si elle viole les règlements de NetAtlas.</h3>
+							}
+							<div>
+								<hr />
+								<div class="ingo">
+									<h3>@Html.DisplayFor(model => model.UserName)</h3>
+									<small>@Html.DisplayFor(model => model.PublicationDate)</small>
+								</div>
+								@if(Model.Url != null){
+									<a href="@Html.DisplayFor(model => model.Url)" target="_blank">@Html.DisplayFor(model => model.Url)</a>
+								}
+								@if(Model.Libelle != null){
+									<p>@Html.DisplayFor(model => model.Libelle)</p>
+								}
+								@if(Model.Legende != null){
+									<p>@Html.DisplayFor(model => model.Legende)</p>
+									@if(Model.type == 1){
+										<div class="photo">
+											<img src="@Html.DisplayFor(model => model.Path)" alt="" loading="lazy">
+										</div>
+									}
+									@if(Model.type == 2){
+										<div class="photo">
+											<video src="@Html.DisplayFor(model => model.Path)" controls preload="none" width=500 height=400 ></video>
+										</div>
+									}
+								}
+								@if(User.IsInRole("Moderateur")){
+									<form asp-action="Signaler">
+										<input type="hidden" asp-for="Id" />
+										<input type="submit" value="Signaler" class="btn btn-danger" />
+									</form>
+								}	
+								
+							</div>
+
+						</div>
+					</div>
+				</div>

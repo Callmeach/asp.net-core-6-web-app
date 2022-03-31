@@ -17,6 +17,8 @@ namespace ProjectFirstSteps.Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
+        public bool IsActivated { get; set; } = false;
+
         // Friends list
         [NotMapped]
         public virtual ICollection<MembreMembre>? Friends { get; set; }
@@ -28,5 +30,8 @@ namespace ProjectFirstSteps.Models
         // Messages
         [NotMapped]
         public virtual ICollection<Chat>? Chats { get; set; }
+
+        public ICollection<Notifications>? Notifications { get; set; }
+
     }
 }

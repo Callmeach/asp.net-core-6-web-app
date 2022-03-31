@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ProjectFirstSteps.Models.PersonalizedClass>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+				
+
+				<div class="middle">
+
+					<div class="feeds">
+						@foreach (var item in Model)
+						{
+							<div class="feed">
+								<div class="head">
+									<div class="user">
+										<div class="profile-picture">
+											<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
+										</div>
+										<div class="ingo">
+											<h3>@Html.DisplayFor(modelItem => item.UserName)</h3>
+											<small>@Html.DisplayFor(modelItem => item.PublicationDate)</small>
+										</div>
+									</div>
+									<span class="edit">
+										<i class="uil uil-ellipsis-h"></i>
+									</span>
+								</div>
+								@if(item.Libelle != null){
+									<div>
+										<p>@Html.DisplayFor(modelItem => item.Libelle)</p>
+									</div>
+									if(User.IsInRole("Moderateur")){
+										<div>
+											<a asp-action="Signaler" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Signaler</a>
+										</div>
+									}
+									if(User.IsInRole("Administrateur")){
+										<div>
+											<a asp-action="Delete" asp-controller="PersonalizedClasses" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Supprimer</a>
+										</div>
+									}
+									
+								}
+								@if(item.Url != null){
+									<div>
+										<a href="@Html.DisplayFor(modelItem => item.Url)" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
+									</div>
+									if(User.IsInRole("Moderateur")){
+										<div>
+											<a asp-action="Signaler" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Signaler</a>
+										</div>
+									}
+									if(User.IsInRole("Administrateur")){
+										<div>
+											<a asp-action="Delete" asp-controller="PersonalizedClasses" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Supprimer</a>
+										</div>
+									}
+								}
+								@if(item.Legende != null){
+									<p>@Html.DisplayFor(modelItem => item.Legende)</p>
+									@if(item.type == 1)
+									{
+										<div class="photo">
+											<img src="@Html.DisplayFor(modelItem => item.Path)" alt="" loading="lazy">
+										</div>
+									}
+									@if(item.type == 2)
+									{
+										<div class="photo">
+											<video src="@Html.DisplayFor(modelItem => item.Path)" controls preload="none" width=500 height=400 ></video>
+										</div>
+									}
+									if(User.IsInRole("Moderateur")){
+										<div>
+											<a asp-action="Signaler" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Signaler</a>
+										</div>
+									}
+									if(User.IsInRole("Administrateur")){
+										<div>
+											<a asp-action="Delete" asp-controller="PersonalizedClasses" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Supprimer</a>
+										</div>
+									}
+
+								}
+								<div class="action-button">
+									
+							</div>
+							<div class="liked-by">
+								<span><img src="~/Medias/Images/PhotoProfil/pic1.png"></span>
+								<span><img src="~/Medias/Images/PhotoProfil/pic2.jpg"></span>
+								<span><img src="~/Medias/Images/PhotoProfil/pic3.png"></span>
+								<p>Liked by <b>ErnesArnold</b> and <b>2,450 others</b></p>
+							</div>
+							<div class="caption">
+								<p><b>Alfred 06</b> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+									Illum...</p>
+							</div>
+							<div class="comments text-muted">View all 276 comments</div>
+							</div>
+						}
+						
+						<!-------------END OF FEED---------->
+
+					</div>
+				</div>
+			</div>
