@@ -1,47 +1,58 @@
-﻿@{
+﻿@model IEnumerable<ProjectFirstSteps.Models.Membre>
+
+@{
     ViewData["Title"] = "Amis";
+    Layout = "~/Views/Shared/_LayoutAmis.cshtml";
 }
 
-<style>
-main .container {
-        display: grid;
-        grid-template-columns: 18vw auto 5vw;
-        column-gap: 2rem;
-        position: relative;
-    }
-</style>
 
-<div class="left">
-					<a asp-action="MesPublications" asp-controller="Membres" class="profile">
-						<div class="profile-picture">
-							<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
-						</div>
-						<div class="handle">
-							<h4>@User.Identity.Name</h4>
-							<p class="text-muted">
-								@Context.Session.GetString("email")
-							</p>
-						</div>
-					</a>
-					<div class="sidebar">
-						<a class="menu-item active">
-							<span><i class="uil uil-home"></i></span><h3>Acceuil</h3>
-						</a>
-						<a class="menu-item">
-							<span><i class="uil uil-users-alt"></i></span><h3>Invitations</h3>
-						</a>
-						<a class="menu-item">
-							<span><i class="uil uil-users-alt"></i></span><h3>Mes Amis</h3>
-						</a>
-						<a class="menu-item" id="theme">
-							<span><i class="uil uil-palette"></i></span><h3>Theme</h3>
-						</a>
-						<a class="menu-item">
-							<span><i class="uil uil-setting"></i></span><h3>Settings</h3>
-						</a>
-							
-					</div>
-				</div>
-				<div class="middle">
+					<hr />
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										@Html.DisplayNameFor(model => model.Nom)
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.Prenom)
+									</th>
+									<th>
+										@Html.DisplayNameFor(model => model.Email)
+									</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+						@if (Model.Count() != 0)
+						{
+							@foreach (var item in Model) {
+									<tr>
+                
+										<td>
+											@Html.DisplayFor(modelItem => item.Nom)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.Prenom)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.Email)
+										</td>
+										<td>
+											<a asp-action="Edit" asp-route-email="@item.Email">Edit</a> |
+											<a asp-action="Details" asp-route-email="@item.Email">Details</a> |
+											<a asp-action="Remove" asp-route-email="@item.Email">Retirer</a> |
+											<a asp-controller="Chats" asp-action="PrivateChat" asp-route-email="@item.Email">Message</a>
+										</td>
+                
+									</tr>
+							}
 
-				</div>
+						}
+						@if(Model.Count() == 0)
+						{
+							<script>
+								alert("Aucun élément trouvé");
+							</script>
+						}
+							</tbody>
+						</table>

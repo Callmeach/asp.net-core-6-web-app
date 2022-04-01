@@ -107,7 +107,7 @@ namespace ProjectFirstSteps.Controllers
                         await _context.SaveChangesAsync();
                         ViewBag.Media = photoVideo;
                         ViewBag.PicturePublication = publication;
-                        return RedirectToAction(nameof(Index));
+                        return RedirectToAction("Index","Home");
                     }
                 }
                 

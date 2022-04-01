@@ -24,38 +24,10 @@
 						<a class="menu-item">
 							<span><i class="uil uil-users-alt"></i></span><h3>Amis</h3>
 						</a>
-						<a class="menu-item" id="notifications">
-							<span><i class="uil uil-bell"><small class="notification-count">9+</small></i></span><h3>Notifications</h3>
-							<div class="notifications-popup">
-								<div>
-									<div class="profile-picture">
-										<img src="~/Medias/Images/PhotoProfil/pic3.png" alt="">
-									</div>
-									<div class="notification-body">
-										<b>Samuel R</b> accepted your friend request
-										<small class="text-muted">1 hour ago</small>
-									</div>
+						<a class="menu-item" id="notifications" asp-action="ListeNotifications" asp-controller="Membres">
+								<span><i class="uil uil-bell"><small class="notification-count">+</small></i></span><h3>Notifications</h3>
+								<div class="notifications-popup">
 								</div>
-								<div>
-									<div class="profile-picture">
-										<img src="~/Medias/Images/PhotoProfil/pic4.png" alt="">
-									</div>
-									<div class="notification-body">
-										<b>Nick Larson</b> accepted your friend request
-										<small class="text-muted">1 day ago</small>
-									</div>
-								</div>
-								<div>
-									<div class="profile-picture">
-										<img src="~/Medias/Images/PhotoProfil/pic4png" alt="">
-									</div>
-									<div class="notification-body">
-										<b>Ava Max</b> accepted your friend request
-										<small class="text-muted">2 days ago</small>
-									</div>
-								</div>
-							</div>
-							
 						</a>
 						<a class="menu-item" id="messages-notifications">
 							<span><i class="uil uil-envelope-alt"><small class="notification-count">3</small></i></span><h3>Messages</h3>

@@ -152,7 +152,10 @@ namespace ProjectFirstSteps.Controllers
             _context.Publications.Remove(publications);
             _context.Ressource.Remove(ressources);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (User.IsInRole("Utilisateur") || User.IsInRole("Moderateur"))
+                return RedirectToAction("MesPublications","Membres");
+            
+            return RedirectToAction("Index", "Home");
         }
 
         private bool PersonalizedClassExists(int id)

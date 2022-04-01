@@ -78,7 +78,7 @@ namespace ProjectFirstSteps.Controllers
                 };
                 _context.Add(personalized);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             return View(lien);
         }

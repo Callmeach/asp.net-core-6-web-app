@@ -1,54 +1,64 @@
-﻿@model IEnumerable<ProjectFirstSteps.Models.Chat>
+﻿@model IEnumerable<ProjectFirstSteps.Models.Membre>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Chat";
+    Layout = "~/Views/Shared/_LayoutAmis.cshtml";
 }
 
-<h1>Index</h1>
+<h2>Choisissez un ami avec qui discuter</h2>
+<div class="post-container">
+    
+    @using(Html.BeginForm("Amis", "Membres", FormMethod.Get))
+    {
+        @Html.TextBox("search") <input type="submit" value="Rechercher"/>
+    }
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prenom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @if (Model.Count() != 0)
+    {
+        @foreach (var item in Model) {
+                <tr>
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prenom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-mail="@item.Email">Edit</a> |
+                        <a asp-action="Details" asp-route-mail="@item.Email">Details</a> |
+                        <a asp-controller="Chats" asp-action="PrivateChat" asp-route-mail="@item.Email">Message</a>
+                    </td>
+                
+                </tr>
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MailMembre1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MailMembre2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MessageDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Containt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MailMembre1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MailMembre2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MessageDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Containt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    }
+    @if(Model.Count() == 0)
+    {
+        <script>
+            alert("Aucun élément trouvé");
+        </script>
+    }
+        </tbody>
+    </table>
+</div>

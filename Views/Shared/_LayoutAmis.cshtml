@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+main .container {
+        display: grid;
+        grid-template-columns: 18vw auto 5vw;
+        column-gap: 2rem;
+        position: relative;
+    }
+</style>
+
+<div class="left">
+					<a asp-action="MesPublications" asp-controller="Membres" class="profile">
+						<div class="profile-picture">
+							<img src="~/Medias/Images/PhotoProfil/pic1.png" alt="">
+						</div>
+						<div class="handle">
+							<h4>@User.Identity.Name</h4>
+							<p class="text-muted">
+								@Context.Session.GetString("email")
+							</p>
+						</div>
+					</a>
+					<div class="sidebar">
+						<a class="menu-item active">
+							<span><i class="uil uil-home"></i></span><h3>Mes Amis</h3>
+						</a>
+						<a class="menu-item" asp-action="InvitationsEnvoyees">
+							<span><i class="uil uil-users-alt"></i></span><h3>Invitations Envoyées</h3>
+						</a>
+						<a class="menu-item" asp-action="ListInvitations">
+							<span><i class="uil uil-users-alt"></i></span><h3>Invitations Recues</h3>
+						</a>
+						<a class="menu-item" asp-action="Suggestion">
+							<span><i class="uil uil-users-alt"></i></span><h3>Suggestions</h3>
+						</a>
+						<a class="menu-item" id="theme">
+							<span><i class="uil uil-palette"></i></span><h3>Theme</h3>
+						</a>
+						<a class="menu-item">
+							<span><i class="uil uil-setting"></i></span><h3>Settings</h3>
+						</a>
+							
+					</div>
+				</div>
+				
+				<div class="middle">
+					@RenderBody()
+				</div>

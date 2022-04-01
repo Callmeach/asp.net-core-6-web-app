@@ -66,6 +66,11 @@ namespace ProjectFirstSteps.Controllers
             return amis;
         }
 
+        public IActionResult Welcome()
+        {
+            return View();
+        }
+
         // GET: Publications
         public async Task<IActionResult> MesPublications()
         {
@@ -114,6 +119,12 @@ namespace ProjectFirstSteps.Controllers
         {
             var membre = _context.Membres.Find(id);
             membre.IsActivated = true;
+            Notifications notifications = new Notifications
+            {
+                Contenu = "Votre inscription a été validée. Bienvenue sur NetAtlas!",
+                Membre = membre,
+            };
+            _context.Add(notifications);
             _context.SaveChanges();
             return RedirectToAction("Admin","Home");
         }
@@ -195,7 +206,7 @@ namespace ProjectFirstSteps.Controllers
                     membre.Role = _context.Roles.Where(a => a.Name == "Utilisateur").FirstOrDefault();
                     _context.Add(membre);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Welcome));
                 }
             }
             return View(membre);
@@ -390,7 +401,7 @@ namespace ProjectFirstSteps.Controllers
             _context.Invitations.Add(invitation);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Inconnus));
+            return RedirectToAction(nameof(Suggestion));
         }
 
         // Shows the invitation list sent to the user
@@ -520,6 +531,52 @@ namespace ProjectFirstSteps.Controllers
 
             return View(inconnus);
         }
+
+
+        // Returns the list of members that are not friends of the connected user
+        public async Task<IActionResult> Suggestion(string search)
+        {
+            var thisUser = HttpContext.Session.GetString("email");
+
+            string[] invites = await _context.Invitations.
+                Where(i => i.InviterMail == thisUser)
+                .Select(i => i.InvitedMail).ToArrayAsync();
+            
+            string[] idAmis = await _context.MembreMembres.
+                Where(m => m.MailMembre2 == thisUser).
+                Select(m => m.MailMembre1).ToArrayAsync();
+
+            string[] idAmis2 = await _context.MembreMembres.
+                Where(m => m.MailMembre2 == thisUser).
+                Select(m => m.MailMembre1).ToArrayAsync();
+
+            List<string> noFriends = new();
+            noFriends.AddRange(invites);
+            noFriends.AddRange(idAmis);
+            noFriends.AddRange(idAmis2);
+
+            List<Membre> inconnus = await _context.Membres
+                .Where(m => (m.RoleId != 1) && (!noFriends.Contains(m.Email)) ).ToListAsync();
+            // I remove the connected user from the list
+            inconnus.Remove(_context.Membres.FirstOrDefault(m => m.Email == thisUser));
+
+            if (search != null)
+            {
+                List<Membre> result = new List<Membre>();
+                foreach (var m in inconnus)
+                {
+                    if (m.Prenom.Contains(search) || m.Nom.Contains(search) ||
+                        m.Email.Contains(search))
+                    {
+                        result.Add(m);
+                    }
+                }
+                return View(result);
+            }
+
+            return View(inconnus);
+        }
+
 
         // Accept an invitation
         public IActionResult Accepter(string email)

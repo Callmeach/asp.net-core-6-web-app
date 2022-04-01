@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ProjectFirstSteps.Models.Membre>
+
+@{
+    ViewData["Title"] = "Suggestions";
+    Layout = "~/Views/Shared/_LayoutAmis.cshtml";
+}
+
+                    @using(Html.BeginForm("Suggestion", "Membres", FormMethod.Get))
+                    {
+                        @Html.TextBox("search") <input type="submit" value="Rechercher"/>
+                    }
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Nom)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Prenom)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        @if (Model.Count() != 0)
+                        {
+                            @foreach (var item in Model) {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Prenom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-email="@item.Email">Details</a> |
+                                        <a asp-action="Inviter" asp-route-email="@item.Email" >Inviter</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        @if(Model.Count() == 0)
+                        {
+                            <script>
+                                alert("Aucun élément trouvé");
+                            </script>
+                        }
+
+                        </tbody>
+                    </table>

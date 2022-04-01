@@ -81,7 +81,7 @@ namespace ProjectFirstSteps.Controllers
                 await _context.SaveChangesAsync();
                 ViewBag.Message = message;
                 ViewBag.MessagePublication = publication;
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             return View(message);
         }

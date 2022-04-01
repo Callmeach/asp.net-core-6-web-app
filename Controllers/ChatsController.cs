@@ -18,13 +18,29 @@ namespace ProjectFirstSteps.Controllers
         public ChatsController(MyContext context)
         {
             _context = context;
-            thisUser = new MembresController(_context).thisUser;
+            //thisUser = new MembresController(_context).thisUser;
         }
 
         // GET: Chats
         public IActionResult Index()
         {
-            ICollection<Membre> amis = new MembresController(_context).GetAmis();
+            //ICollection<Membre> amis = new MembresController(_context).GetAmis();
+
+            thisUser = HttpContext.Session.GetString("email");
+            List<MembreMembre> amitie = _context.MembreMembres.Where(m => m.MailMembre1 == thisUser || m.MailMembre2 == thisUser).ToList();
+            // return View(amitie);
+            List<Membre> amis = new();
+            foreach (var item in amitie)
+            {
+                if (item.MailMembre2 == thisUser)
+                {
+                    amis.Add(_context.Membres.FirstOrDefault(m => m.Email == item.MailMembre1));
+                }
+                else if (item.MailMembre1 == thisUser)
+                {
+                    amis.Add(_context.Membres.FirstOrDefault(m => m.Email == item.MailMembre2));
+                }
+            }
 
             return View(amis);
         }
@@ -175,6 +191,7 @@ namespace ProjectFirstSteps.Controllers
             ViewData["Membre1"] = membre1.Nom + " " + membre1.Prenom + " ";
             Membre membre2 = _context.Membres.FirstOrDefault(m => m.Email == mail);
             ViewData["Membre2"] = membre2.Nom + " " + membre2.Prenom + " ";
+            ViewData["MailMembre2"] = membre2.Email;
 
             ViewData["thisUser"] = thisUser;
 
@@ -185,5 +202,6 @@ namespace ProjectFirstSteps.Controllers
         {
             return _context.Chats.Any(e => e.Id == id);
         }
+
     }
 }
