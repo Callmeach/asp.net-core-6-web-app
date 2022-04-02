@@ -7,7 +7,7 @@
 <style>
 main .container {
         display: grid;
-        grid-template-columns: 18vw auto 10vw;
+        grid-template-columns: 18vw auto 5vw;
         column-gap: 2rem;
         position: relative;
     }
@@ -45,13 +45,7 @@ main .container {
 </div>
 
 				<div class="middle">
-					<div class="create-post">
-						<div class="profile-picture">
-							<img alt="" src="~/Medias/Images/PhotoProfil/pic2.jpg">
-						</div>
-						<input type="text" placeholder="What's new?" id="create-post">
-					</div>
-
+					
 					<table class=table>
 						<thead>
 							<tr>
@@ -86,9 +80,9 @@ main .container {
 									@Html.DisplayFor(modelItem => item.Role.Name)
 								</td>
 								<td>
-									<a style="color:blue" asp-action="PublicationsParam" asp-route-id="@item.Email">Publications</a>
+									<a class="btn btn-outline-info" asp-action="PublicationsParam" asp-route-id="@item.Email">Publications</a>
 									@if(User.IsInRole("Administrateur")){
-										<span>| </span><a style="color:red" asp-action="PublicationsParam" asp-route-id="@item.Email">Reinitialiser</a>
+										<span>| </span><a class="btn btn-outline-success" asp-action="Reinitialiser" asp-route-id="@item.Email">Reinitialiser</a>
 									}									
 								</td>
 							</tr>

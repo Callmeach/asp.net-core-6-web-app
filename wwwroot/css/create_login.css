@@ -1,0 +1,92 @@
+﻿.col {
+    width: 450px;
+    height: 300px;
+    position: center;
+    top: -60px;
+    right: 500px;
+    background-position: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-left: 270px;
+    margin-top: 100px;
+    font-size: 25px;
+}
+
+.net {
+    margin-top: 96px;
+    font-size: 100px;
+    color: mediumslateblue;
+}
+
+.btn btn-primary {
+    width: 350px;
+    height: 30px;
+    font-size: 19px;
+    margin: 5px;
+    font-style: inherit;
+    border-radius: 2px;
+}
+
+h1 {
+    background-color: mediumslateblue;
+    border-radius: 15px;
+    position: center;
+    text-align: center;
+    color: white;
+}
+
+input {
+    width: 410px;
+    height: 40px;
+    border-radius: 30px;
+    color: rgb(181, 188, 196);
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.row {
+    width: 650px;
+    height: 480px;
+    position: center;
+    top: -60px;
+    right: 500px;
+    background-position: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-left: 350px;
+    margin-top: 40px;
+    font-size: 25px;
+}
+
+    .row input {
+        width: 580px;
+        height: 40px;
+        margin-top: 20px;
+        border-radius: 10px;
+    }
+
+hr {
+    width: 300px;
+}
+
+.Ah {
+    background-color: mediumslateblue;
+    border-radius: 10px;
+    position: center;
+    text-align: center;
+    color: white;
+    width: 600px;
+    height: 60px;
+}
+
+h6 {
+    color: cornflowerblue;
+    font-size: 55px;
+}

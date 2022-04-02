@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4>Publish a Media File</h4>
+				<h4>Publier une photo ou une vidéo</h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -30,16 +30,14 @@
                                 <input type="hidden" asp-for="path" class="form-control" />
                                 <span asp-validation-for="path" class="text-danger"></span>
                             </div>
-                            <input type="submit" value="Publier" class="btn btn-success" />
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" data-save="modal">Publier</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
                         </form>
                     </div>
                 </div>
 			</div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" data-save="modal">Send message</button>
-            </div>
 
 			
 		</div>

@@ -3,49 +3,51 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Membre</h4>
-<hr />
+<link rel="stylesheet" href="~/css/create_login.css" />
+<div class="middle">
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <div>
+                <h1 class="Ah">Créer un compte</h1>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" /> 
+                @*<label asp-for="Email" class="control-label"></label>*@
+                <input asp-for="Email" placeholder="Email" class="form-control" /> 
                 <span asp-validation-for="Email" class="text-danger"></span>
                 @Html.ValidationMessage("EmailExist", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                <label asp-for="Nom" class="control-label"></label>
-                <input asp-for="Nom" class="form-control" />
+                @*<label asp-for="Nom" class="control-label"></label>*@
+                <input asp-for="Nom" placeholder="Nom" class="form-control" />
                 <span asp-validation-for="Nom" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Prenom" class="control-label"></label>
-                <input asp-for="Prenom" class="form-control" />
+                @*<label asp-for="Prenom" class="control-label"></label>*@
+                <input asp-for="Prenom" placeholder="Prenom" class="form-control" />
                 <span asp-validation-for="Prenom" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                @*<label asp-for="Password" class="control-label"></label>*@
+                <input asp-for="Password" placeholder="Choisissez un mot de passe" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="Role.RoleId" class="form-control" value="1"/>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="S'inscrire" class="btn btn-primary" />
             </div>
         </form>
     </div>
+    <div>
+    <a class="btn btn-success" asp-action="Login">Se connecter</a>
+    </div>
+</div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

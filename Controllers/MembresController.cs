@@ -146,9 +146,28 @@ namespace ProjectFirstSteps.Controllers
             return View();
         }
 
-        public IActionResult Reinitialiser(string id)
+        public async Task<IActionResult> Reinitialiser(string id)
         {
-            return View();
+            var invitations = await _context.Invitations.Where(e => e.InviterMail == id || e.InvitedMail == id).ToListAsync();
+            var membremembre = await _context.MembreMembres.Where(m => m.MailMembre1 == id || m.MailMembre2 == id).ToListAsync();
+            var chats = await _context.Chats.Where(c => c.MailMembre1 == id || c.MailMembre2 == id).ToListAsync();
+
+            _context.Invitations.RemoveRange(invitations);
+            _context.MembreMembres.RemoveRange(membremembre);
+            _context.Chats.RemoveRange(chats);
+
+            var notifications = await _context.Notifications.Where(n => n.MembreEmail == id).ToListAsync();
+            var personalizedClass = await _context.Personalizeds.Where(p => p.UserMail == id).ToListAsync();
+            var publications = await _context.Publications.Where(p => p.Membre.Email ==  id).ToListAsync();
+
+            if (notifications != null)
+            {
+                _context.Notifications.RemoveRange(notifications);
+            }
+            _context.Personalizeds.RemoveRange(personalizedClass);
+            _context.Publications.RemoveRange(publications);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Membres

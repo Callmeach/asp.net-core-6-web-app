@@ -21,9 +21,7 @@ a {
     text-decoration: none;
 }
 
-btn {
-    background-color:aqua;
-}
+
 a:hover{
     background :none;
 }

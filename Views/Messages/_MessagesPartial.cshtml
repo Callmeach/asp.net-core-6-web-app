@@ -4,7 +4,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4>Publish a sample message</h4>
+				<h4>Publier un message.</h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -21,18 +21,14 @@
                                 <input type="hidden" asp-for="nomRessource" class="form-control" value="Message" />
                                 <span asp-validation-for="nomRessource" class="text-danger"></span>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn-primary" data-save="modal">Send message</button>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" data-save="modal">Envoyer</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             </div>
                         </form>
                     </div>
                 </div>
 			</div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    
-                </div>
             
 
 			
