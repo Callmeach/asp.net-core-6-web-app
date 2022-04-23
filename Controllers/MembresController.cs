@@ -166,6 +166,14 @@ namespace ProjectFirstSteps.Controllers
             }
             _context.Personalizeds.RemoveRange(personalizedClass);
             _context.Publications.RemoveRange(publications);
+
+            Notifications notification = new Notifications
+            {
+                Contenu = "Votre compte a été réinitialisé par un administrateur.",
+                Membre = _context.Membres.Where(m => m.Email == id).Single()
+            };
+            _context.Add(notification);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -277,7 +285,7 @@ namespace ProjectFirstSteps.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Home","Index");
             }
             return View(membre);
         }
